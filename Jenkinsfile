@@ -22,13 +22,73 @@ pipeline {
             }
         }
 
-        stage('Deploy to EC2') {
+        stage('Deploy to DEV') {
             steps {
                 sshagent(credentials: ['skj-app-deploy-key']) {
                     sh '''
                         ssh -o StrictHostKeyChecking=no ubuntu@172.31.13.181 \
-                        "mkdir -p /var/www/skj-jewellers"
+                        "mkdir -p /var/www/skj-dev"
 
+                        rsync -az --no-perms --no-owner --no-group --omit-dir-times \
+                          --exclude='.env' \
+                          --exclude='database/database.sqlite' \
+                          --exclude='storage/' \
+                          --exclude='node_modules/' \
+                          ./ ubuntu@172.31.13.181:/var/www/skj-dev/
+
+                        ssh -o StrictHostKeyChecking=no ubuntu@172.31.13.181 \
+                        "cd /var/www/skj-dev && \
+                         php artisan migrate --force && \
+                         php artisan optimize:clear && \
+                         php artisan config:cache && \
+                         php artisan route:cache && \
+                         php artisan view:cache && \
+                         sudo chown -R www-data:www-data storage bootstrap/cache && \
+                         sudo chmod -R 775 storage bootstrap/cache"
+                    '''
+                }
+            }
+        }
+
+        stage('Deploy to TEST') {
+            steps {
+                sshagent(credentials: ['skj-app-deploy-key']) {
+                    sh '''
+                        ssh -o StrictHostKeyChecking=no ubuntu@172.31.13.181 \
+                        "mkdir -p /var/www/skj-test"
+
+                        rsync -az --no-perms --no-owner --no-group --omit-dir-times \
+                          --exclude='.env' \
+                          --exclude='database/database.sqlite' \
+                          --exclude='storage/' \
+                          --exclude='node_modules/' \
+                          ./ ubuntu@172.31.13.181:/var/www/skj-test/
+
+                        ssh -o StrictHostKeyChecking=no ubuntu@172.31.13.181 \
+                        "cd /var/www/skj-test && \
+                         php artisan migrate --force && \
+                         php artisan optimize:clear && \
+                         php artisan config:cache && \
+                         php artisan route:cache && \
+                         php artisan view:cache && \
+                         sudo chown -R www-data:www-data storage bootstrap/cache && \
+                         sudo chmod -R 775 storage bootstrap/cache"
+                    '''
+                }
+            }
+        }
+
+        stage('Approval for PROD') {
+            steps {
+                input message: 'DEV and TEST deployment completed. Deploy this version to PROD?', \
+                      ok: 'Deploy to PROD'
+            }
+        }
+
+        stage('Deploy to PROD') {
+            steps {
+                sshagent(credentials: ['skj-app-deploy-key']) {
+                    sh '''
                         rsync -az --no-perms --no-owner --no-group --omit-dir-times \
                           --exclude='.env' \
                           --exclude='database/database.sqlite' \
@@ -44,9 +104,7 @@ pipeline {
                          php artisan route:cache && \
                          php artisan view:cache && \
                          sudo chown -R www-data:www-data storage bootstrap/cache && \
-                         sudo chmod -R 775 storage bootstrap/cache && \
-                         sudo chown www-data:www-data database/database.sqlite && \
-                         sudo chmod 664 database/database.sqlite"
+                         sudo chmod -R 775 storage bootstrap/cache"
                     '''
                 }
             }
@@ -55,7 +113,7 @@ pipeline {
 
     post {
         success {
-            echo 'SKJ Jewellers deployment successful!'
+            echo 'SKJ Jewellers DEV → TEST → PROD deployment successful!'
         }
 
         failure {
