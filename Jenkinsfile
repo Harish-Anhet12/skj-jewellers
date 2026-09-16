@@ -29,12 +29,12 @@ pipeline {
                         ssh -o StrictHostKeyChecking=no ubuntu@172.31.13.181 \
                         "mkdir -p /var/www/skj-jewellers"
 
-                        rsync -az \
-                          --exclude='.env' \
-                          --exclude='database/database.sqlite' \
-                          --exclude='storage/' \
-                          --exclude='node_modules/' \
-                          ./ ubuntu@172.31.13.181:/var/www/skj-jewellers/
+                       rsync -az --no-perms --no-owner --no-group --omit-dir-times \
+                        --exclude='.env' \
+                        --exclude='database/database.sqlite' \
+                        --exclude='storage/' \
+                        --exclude='node_modules/' \
+                        ./ ubuntu@172.31.13.181:/var/www/skj-jewellers/
 
                         ssh -o StrictHostKeyChecking=no ubuntu@172.31.13.181 \
                         "cd /var/www/skj-jewellers && \
