@@ -22,34 +22,6 @@ pipeline {
             }
         }
 
-        stage('Deploy to DEV') {
-            steps {
-                sshagent(credentials: ['skj-app-deploy-key']) {
-                    sh '''
-                        ssh -o StrictHostKeyChecking=no ubuntu@172.31.13.181 \
-                        "mkdir -p /var/www/skj-dev"
-
-                        rsync -az --no-perms --no-owner --no-group --omit-dir-times \
-                          --exclude='.env' \
-                          --exclude='database/database.sqlite' \
-                          --exclude='storage/' \
-                          --exclude='node_modules/' \
-                          ./ ubuntu@172.31.13.181:/var/www/skj-dev/
-
-                        ssh -o StrictHostKeyChecking=no ubuntu@172.31.13.181 \
-                        "cd /var/www/skj-dev && \
-                         php artisan migrate --force && \
-                         php artisan optimize:clear && \
-                         php artisan config:cache && \
-                         php artisan route:cache && \
-                         php artisan view:cache && \
-                         sudo chown -R www-data:www-data storage bootstrap/cache && \
-                         sudo chmod -R 775 storage bootstrap/cache"
-                    '''
-                }
-            }
-        }
-
         stage('Deploy to TEST') {
             steps {
                 sshagent(credentials: ['skj-app-deploy-key']) {
@@ -77,47 +49,15 @@ pipeline {
                 }
             }
         }
-
-        stage('Approval for PROD') {
-            steps {
-                input message: 'DEV and TEST deployment completed. Deploy this version to PROD?', \
-                      ok: 'Deploy to PROD'
-            }
-        }
-
-        stage('Deploy to PROD') {
-            steps {
-                sshagent(credentials: ['skj-app-deploy-key']) {
-                    sh '''
-                        rsync -az --no-perms --no-owner --no-group --omit-dir-times \
-                          --exclude='.env' \
-                          --exclude='database/database.sqlite' \
-                          --exclude='storage/' \
-                          --exclude='node_modules/' \
-                          ./ ubuntu@172.31.13.181:/var/www/skj-jewellers/
-
-                        ssh -o StrictHostKeyChecking=no ubuntu@172.31.13.181 \
-                        "cd /var/www/skj-jewellers && \
-                         php artisan migrate --force && \
-                         php artisan optimize:clear && \
-                         php artisan config:cache && \
-                         php artisan route:cache && \
-                         php artisan view:cache && \
-                         sudo chown -R www-data:www-data storage bootstrap/cache && \
-                         sudo chmod -R 775 storage bootstrap/cache"
-                    '''
-                }
-            }
-        }
     }
 
     post {
         success {
-            echo 'SKJ Jewellers DEV → TEST → PROD deployment successful!'
+            echo 'SKJ Jewellers TEST deployment successful!'
         }
 
         failure {
-            echo 'SKJ Jewellers deployment failed.'
+            echo 'SKJ Jewellers TEST deployment failed.'
         }
     }
 }
