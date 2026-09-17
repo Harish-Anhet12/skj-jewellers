@@ -1,4 +1,3 @@
-```blade
 @extends('layouts.app')
 @section('title', 'Discover Us · '.config('brand.name'))
 @section('content')
