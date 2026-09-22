@@ -3,57 +3,243 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@yield('title', 'Admin · '.config('brand.name'))</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" defer></script>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-      tailwind.config = {
-        theme: {
-          extend: {
-            colors: {
-              gold: {
-                50: '#fbf6e9', 100: '#f5e9c6', 200: '#eed89a', 300: '#e3c467',
-                400: '#d4af37', 500: '#bd9530', 600: '#9c7a26', 700: '#7a5f1e',
-                800: '#5a4516', 900: '#3d2e0f',
-              },
-              ink: { 900: '#0b0b0c', 800: '#141416', 700: '#1d1d20' }
-            },
-            fontFamily: {
-              serif: ['"Playfair Display"', 'serif'],
-              sans: ['"Inter"', 'sans-serif'],
-            },
-            boxShadow: { luxe: '0 10px 40px -10px rgba(212,175,55,0.35)' }
-          }
+
+    <title>@yield('title', 'Laravel Admin')</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
         }
-      }
-    </script>
-    <style type="text/tailwindcss">
-      @layer base {
-        html { scroll-behavior: smooth; }
-        body { @apply bg-white text-ink-900 font-sans antialiased; }
-        h1,h2,h3,h4 { @apply font-serif; }
-      }
-      @layer components {
-        .btn-gold { @apply inline-flex items-center justify-center px-6 py-3 rounded-full bg-gradient-to-r from-gold-400 to-gold-500 text-white font-medium tracking-wide shadow-luxe hover:from-gold-500 hover:to-gold-600 transition; }
-        .btn-outline { @apply inline-flex items-center justify-center px-6 py-3 rounded-full border border-gold-400 text-gold-500 font-medium tracking-wide hover:bg-gold-400 hover:text-white transition; }
-        .section-title { @apply text-3xl md:text-4xl font-serif font-semibold text-ink-900 mb-2; }
-        .section-subtitle { @apply text-gold-500 uppercase tracking-[0.2em] text-xs font-semibold mb-3; }
-        .card { @apply bg-white rounded-2xl shadow-sm border border-gold-100 hover:shadow-luxe transition overflow-hidden; }
-      }
+
+        body {
+            background: #f4f6f9;
+            color: #1f2937;
+        }
+
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+
+            width: 240px;
+            height: 100vh;
+
+            background: #1f2937;
+            color: white;
+
+            padding: 25px 15px;
+        }
+
+        .logo {
+            font-size: 22px;
+            font-weight: bold;
+            padding: 0 15px 30px;
+        }
+
+        .nav-link {
+            display: block;
+
+            color: #d1d5db;
+            text-decoration: none;
+
+            padding: 13px 15px;
+            margin-bottom: 5px;
+
+            border-radius: 8px;
+
+            transition: 0.2s;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            background: #374151;
+            color: white;
+        }
+
+        .main {
+            margin-left: 240px;
+            min-height: 100vh;
+        }
+
+        .topbar {
+            height: 70px;
+
+            background: white;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            padding: 0 30px;
+
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .topbar h2 {
+            font-size: 20px;
+        }
+
+        .user-section {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .avatar {
+            width: 40px;
+            height: 40px;
+
+            border-radius: 50%;
+
+            background: #667eea;
+            color: white;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-weight: bold;
+        }
+
+        .logout-button {
+            border: none;
+
+            background: #ef4444;
+            color: white;
+
+            padding: 9px 15px;
+
+            border-radius: 7px;
+
+            cursor: pointer;
+        }
+
+        .content {
+            padding: 30px;
+        }
+
+        @media (max-width: 700px) {
+
+            .sidebar {
+                width: 200px;
+            }
+
+            .main {
+                margin-left: 200px;
+            }
+
+            .content {
+                padding: 20px;
+            }
+        }
     </style>
-    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 </head>
-<body class="bg-ink-900/[0.02]">
-    <div class="min-h-screen flex">
-        <x-admin-sidebar />
-        <div class="flex-1 flex flex-col min-w-0">
-            <x-admin-topbar />
-            <main class="flex-1 p-4 md:p-8">
-                @yield('content')
-            </main>
+
+<body>
+
+    <!-- Sidebar -->
+
+    <aside class="sidebar">
+
+        <div class="logo">
+            Laravel Admin
         </div>
-    </div>
+
+        <a
+            href="/dashboard"
+            class="nav-link"
+        >
+            Dashboard
+        </a>
+
+        <a
+            href="/departments"
+            class="nav-link"
+        >
+            Departments
+        </a>
+
+        <a
+            href="/users"
+            class="nav-link"
+        >
+            Users
+        </a>
+
+        <a
+            href="/roles"
+            class="nav-link"
+        >
+            Roles
+        </a>
+
+        <a
+            href="/authorization"
+            class="nav-link"
+        >
+            Authorization
+        </a>
+
+    </aside>
+
+
+    <!-- Main -->
+
+    <main class="main">
+
+        <!-- Topbar -->
+
+        <header class="topbar">
+
+            <h2>
+                @yield('page-title', 'Dashboard')
+            </h2>
+
+            <div class="user-section">
+
+                <span>
+                    {{ Auth::user()->name }}
+                </span>
+
+                <div class="avatar">
+
+                    {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
+
+                </div>
+
+                <form
+                    method="POST"
+                    action="/logout"
+                >
+
+                    @csrf
+
+                    <button
+                        type="submit"
+                        class="logout-button"
+                    >
+                        Logout
+                    </button>
+
+                </form>
+
+            </div>
+
+        </header>
+
+
+        <!-- Page Content -->
+
+        <div class="content">
+
+            @yield('content')
+
+        </div>
+
+    </main>
+
 </body>
 </html>
