@@ -22,22 +22,22 @@ pipeline {
             }
         }
 
-        stage('Deploy to TEST') {
+        stage('Deploy to INTERN') {
             steps {
                 sshagent(credentials: ['skj-app-deploy-key']) {
                     sh '''
                         ssh -o StrictHostKeyChecking=no ubuntu@172.31.13.181 \
-                        "mkdir -p /var/www/skj-test"
+                        "mkdir -p /var/www/skj-intern"
 
                         rsync -az --no-perms --no-owner --no-group --omit-dir-times \
                           --exclude='.env' \
                           --exclude='database/database.sqlite' \
                           --exclude='storage/' \
                           --exclude='node_modules/' \
-                          ./ ubuntu@172.31.13.181:/var/www/skj-test/
+                          ./ ubuntu@172.31.13.181:/var/www/skj-intern/
 
                         ssh -o StrictHostKeyChecking=no ubuntu@172.31.13.181 \
-                        "cd /var/www/skj-test && \
+                        "cd /var/www/skj-intern && \
                          php artisan migrate --force && \
                          php artisan optimize:clear && \
                          php artisan config:cache && \
@@ -53,11 +53,11 @@ pipeline {
 
     post {
         success {
-            echo 'SKJ Jewellers TEST deployment successful!'
+            echo 'SKJ Jewellers INTERN deployment successful!'
         }
 
         failure {
-            echo 'SKJ Jewellers TEST deployment failed.'
+            echo 'SKJ Jewellers INTERN deployment failed.'
         }
     }
 }
