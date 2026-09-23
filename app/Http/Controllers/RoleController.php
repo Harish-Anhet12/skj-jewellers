@@ -24,10 +24,10 @@ class RoleController extends Controller
             'name' => 'required|string|max:255|unique:roles,name',
         ]);
 
-        $data['can_create'] = $request->has('can_create');
-        $data['can_read'] = $request->has('can_read');
-        $data['can_update'] = $request->has('can_update');
-        $data['can_delete'] = $request->has('can_delete');
+        $data['can_dashboard'] = $request->has('can_dashboard');
+        $data['can_department'] = $request->has('can_department');
+        $data['can_user'] = $request->has('can_user');
+        $data['can_role'] = $request->has('can_role');
 
         Role::create($data);
 
@@ -45,10 +45,10 @@ class RoleController extends Controller
             'name' => 'required|string|max:255|unique:roles,name,' . $role->id,
         ]);
 
-        $data['can_create'] = $request->has('can_create');
-        $data['can_read'] = $request->has('can_read');
-        $data['can_update'] = $request->has('can_update');
-        $data['can_delete'] = $request->has('can_delete');
+        $data['can_dashboard'] = $request->has('can_dashboard');
+        $data['can_department'] = $request->has('can_department');
+        $data['can_user'] = $request->has('can_user');
+        $data['can_role'] = $request->has('can_role');
 
         $role->update($data);
 

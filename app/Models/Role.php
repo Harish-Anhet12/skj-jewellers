@@ -9,10 +9,10 @@ class Role extends Model
 {
     protected $fillable = [
         'name',
-        'can_create',
-        'can_read',
-        'can_update',
-        'can_delete',
+        'can_dashboard',
+        'can_department',
+        'can_user',
+        'can_role',
     ];
 
     public function users()

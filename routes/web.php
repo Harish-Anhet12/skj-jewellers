@@ -34,15 +34,21 @@ Route::get('/dashboard', function () {
 
     return view('dashboard', compact('user'));
 
-})->middleware('auth')->name('dashboard');
+})->middleware(['auth', 'can:access-dashboard'])->name('dashboard');
 
 
 // Application Routes
 Route::middleware('auth')->group(function () {
-    Route::middleware('can:admin')->group(function () {
+    Route::middleware('can:access-department')->group(function () {
         Route::resource('departments', DepartmentController::class);
-        Route::resource('roles', \App\Http\Controllers\RoleController::class);
+    });
+
+    Route::middleware('can:access-user')->group(function () {
         Route::resource('users', \App\Http\Controllers\UserController::class);
+    });
+
+    Route::middleware('can:access-role')->group(function () {
+        Route::resource('roles', \App\Http\Controllers\RoleController::class);
     });
 });
 
