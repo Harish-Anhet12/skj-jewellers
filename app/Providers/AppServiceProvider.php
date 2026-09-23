@@ -21,28 +21,21 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        Gate::define('admin', function (User $user) {
-            return $user->role && strtolower($user->role->name) === 'admin';
+        // Module-based access gates
+        Gate::define('access-dashboard', function (User $user) {
+            return $user->role && $user->role->can_dashboard;
         });
 
-        Gate::define('create', function (User $user) {
-            if ($user->role && strtolower($user->role->name) === 'admin') return true;
-            return $user->role && $user->role->can_create;
+        Gate::define('access-department', function (User $user) {
+            return $user->role && $user->role->can_department;
         });
 
-        Gate::define('read', function (User $user) {
-            if ($user->role && strtolower($user->role->name) === 'admin') return true;
-            return $user->role && $user->role->can_read;
+        Gate::define('access-user', function (User $user) {
+            return $user->role && $user->role->can_user;
         });
 
-        Gate::define('update', function (User $user) {
-            if ($user->role && strtolower($user->role->name) === 'admin') return true;
-            return $user->role && $user->role->can_update;
-        });
-
-        Gate::define('delete', function (User $user) {
-            if ($user->role && strtolower($user->role->name) === 'admin') return true;
-            return $user->role && $user->role->can_delete;
+        Gate::define('access-role', function (User $user) {
+            return $user->role && $user->role->can_role;
         });
     }
 }

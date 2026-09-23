@@ -22,12 +22,12 @@
             </div>
             
             <div class="mt-6">
-                <h4 class="text-sm font-medium text-gray-900 mb-4">Permissions</h4>
+                <h4 class="text-sm font-medium text-gray-900 mb-4">Module Permissions</h4>
                 <div class="space-y-4">
-                    <div class="flex items-center"><input type="checkbox" name="can_create" id="can_create" class="h-4 w-4 text-indigo-600" {{ old('can_create') ? 'checked' : '' }}><label class="ml-3 text-sm text-gray-700" for="can_create">Can Create</label></div>
-                    <div class="flex items-center"><input type="checkbox" name="can_read" id="can_read" class="h-4 w-4 text-indigo-600" {{ old('can_read') ? 'checked' : '' }}><label class="ml-3 text-sm text-gray-700" for="can_read">Can Read</label></div>
-                    <div class="flex items-center"><input type="checkbox" name="can_update" id="can_update" class="h-4 w-4 text-indigo-600" {{ old('can_update') ? 'checked' : '' }}><label class="ml-3 text-sm text-gray-700" for="can_update">Can Update</label></div>
-                    <div class="flex items-center"><input type="checkbox" name="can_delete" id="can_delete" class="h-4 w-4 text-indigo-600" {{ old('can_delete') ? 'checked' : '' }}><label class="ml-3 text-sm text-gray-700" for="can_delete">Can Delete</label></div>
+                    <div class="flex items-center"><input type="checkbox" name="can_dashboard" id="can_dashboard" class="h-4 w-4 text-indigo-600" {{ old('can_dashboard') ? 'checked' : '' }}><label class="ml-3 text-sm text-gray-700" for="can_dashboard">Dashboard</label></div>
+                    <div class="flex items-center"><input type="checkbox" name="can_department" id="can_department" class="h-4 w-4 text-indigo-600" {{ old('can_department') ? 'checked' : '' }}><label class="ml-3 text-sm text-gray-700" for="can_department">Department</label></div>
+                    <div class="flex items-center"><input type="checkbox" name="can_user" id="can_user" class="h-4 w-4 text-indigo-600" {{ old('can_user') ? 'checked' : '' }}><label class="ml-3 text-sm text-gray-700" for="can_user">User</label></div>
+                    <div class="flex items-center"><input type="checkbox" name="can_role" id="can_role" class="h-4 w-4 text-indigo-600" {{ old('can_role') ? 'checked' : '' }}><label class="ml-3 text-sm text-gray-700" for="can_role">Role</label></div>
                 </div>
             </div>
             
