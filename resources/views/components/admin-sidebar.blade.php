@@ -4,6 +4,7 @@ $links = [
     ['Customers', '/admin/customers', 'customers'],
     ['Plans & Schemes', '/admin/plans', 'plans'],
     ['Payments', '/admin/payments', 'payments'],
+    ['Appointments', '/admin/appointments', 'appointments'],
     ['Products', '/admin/products', 'products'],
     ['Offers', '/admin/offers', 'offers'],
     ['Gold Rate', '/admin/gold-rate', 'rate'],
