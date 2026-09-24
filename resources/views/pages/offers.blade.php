@@ -1,5 +1,5 @@
-
 @extends('layouts.app')
+
 @section('title', 'Offers · '.config('brand.name'))
 
 @section('content')
@@ -7,12 +7,14 @@
 <div class="max-w-7xl mx-auto px-4 md:px-8 py-12">
 
     <!-- ==================== OFFER BANNER ==================== -->
+
     <div id="offer-banner"
          class="relative rounded-3xl bg-gradient-to-br from-[#5c1a1a] to-[#7a1010] text-white mb-12 overflow-hidden min-h-[220px]">
 
         <div class="relative z-10 w-full h-[220px]">
 
             <!-- Sliding Track -->
+
             <div id="offer-track"
                  class="flex h-full transition-transform duration-700 ease-in-out">
 
@@ -21,6 +23,7 @@
                     <div class="offer-slide min-w-full h-full flex items-center justify-between px-8 md:px-10">
 
                         <!-- Offer Text -->
+
                         <div class="flex-1 pr-6">
 
                             <p class="text-sm tracking-widest uppercase mb-3 text-white/70">
@@ -39,6 +42,7 @@
                         </div>
 
                         <!-- Jewellery Shape -->
+
                         <div class="hidden md:block ml-6">
 
                             <svg width="140"
@@ -82,6 +86,7 @@
                 @endforelse
 
             </div>
+
 
             <!-- ==================== PILL INDICATORS ==================== -->
 
@@ -237,13 +242,36 @@
     </div>
 
 
+    <!-- ==================== DYNAMIC OFFER PRODUCTS ==================== -->
+
     <div class="grid grid-cols-2 lg:grid-cols-4 gap-6">
 
-        @for($i = 0; $i < 8; $i++)
+        @forelse($offerProducts as $product)
 
-            <x-product-card tag="Sale" />
+            <a href="{{ url('/product/'.$product->id) }}" class="block">
 
-        @endfor
+                <x-product-card
+                    :name="$product->name"
+                    :price="$product->price"
+                    :image="$product->image"
+                    tag="Sale"
+                >
+                    {{ $product->category }}
+                </x-product-card>
+
+            </a>
+
+        @empty
+
+            <div class="col-span-2 lg:col-span-4 text-center py-12
+                        text-ink-900/50 bg-gold-50/30
+                        rounded-3xl border border-gold-100">
+
+                No products currently on sale.
+
+            </div>
+
+        @endforelse
 
     </div>
 
@@ -272,8 +300,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         /*
          * Move the entire track horizontally.
-         * This gives a proper sliding effect instead
-         * of the previous fade/opacity effect.
+         * This gives a proper sliding effect.
          */
 
         track.style.transform = `translateX(-${current * 100}%)`;
@@ -287,13 +314,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
             if (i === current) {
 
-                // Active pill
                 pill.classList.remove('w-5', 'bg-white/40');
                 pill.classList.add('w-10', 'bg-white');
 
             } else {
 
-                // Inactive pill
                 pill.classList.remove('w-10', 'bg-white');
                 pill.classList.add('w-5', 'bg-white/40');
 
@@ -314,7 +339,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
             showSlide(index);
 
-            // Restart automatic timing
             resetTimer();
 
         });
