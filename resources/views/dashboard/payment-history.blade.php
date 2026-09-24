@@ -1,31 +1,41 @@
 @extends('layouts.dashboard')
-@section('page-title','Payment History')
+@section('page-title', 'Payment History')
 @section('content')
-<div class="grid md:grid-cols-2 gap-6 mb-8">
-    <x-stat-card label="Total Amount" value="₹58,000" />
-    <x-stat-card label="Paid Dues" value="12" />
-</div>
-<div class="space-y-4">
-    @foreach(['Sri Akshayam Scheme','Sri Akshayam Scheme'] as $plan)
-    <div class="card p-5">
-        <div class="flex justify-between items-start mb-3">
-            <div>
-                <p class="text-xs text-ink-900/40">Ravishankar D</p>
-                <p class="font-serif font-semibold">{{ $plan }}</p>
+
+    <div class="card overflow-hidden">
+        @if($payments->count() > 0)
+            <div class="overflow-x-auto">
+                <table class="w-full text-left text-sm">
+                    <thead class="bg-gold-50/50 text-ink-900/60 uppercase tracking-wider text-xs">
+                        <tr>
+                            <th class="px-6 py-4 font-medium">Date</th>
+                            <th class="px-6 py-4 font-medium">Transaction ID</th>
+                            <th class="px-6 py-4 font-medium">Plan Name</th>
+                            <th class="px-6 py-4 font-medium text-right">Amount</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gold-100">
+                        @foreach($payments as $payment)
+                            <tr class="hover:bg-gold-50/30 transition-colors">
+                                <td class="px-6 py-4 whitespace-nowrap">{{ $payment->created_at->format('d M Y') }}</td>
+                                <td class="px-6 py-4 font-mono text-xs">{{ $payment->transaction_id }}</td>
+                                <td class="px-6 py-4 font-serif font-medium">{{ $payment->userPlan->plan->name }}</td>
+                                <td class="px-6 py-4 text-right font-semibold text-green-600">₹{{ number_format($payment->amount) }}
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
             </div>
-            <span class="text-xs bg-gold-50 text-gold-600 px-3 py-1 rounded-full">AZ 0658</span>
-        </div>
-        <div class="grid grid-cols-4 gap-3 text-xs mb-4">
-            <div><p class="text-ink-900/40">Paid Amount</p><p class="font-medium">₹2000</p></div>
-            <div><p class="text-ink-900/40">Total Dues</p><p class="font-medium">03/12</p></div>
-            <div><p class="text-ink-900/40">Maturity</p><p class="font-medium">24 Nov 2024</p></div>
-            <div><p class="text-ink-900/40">Start On</p><p class="font-medium">15 Jun 2023</p></div>
-        </div>
-        <div class="border-t border-gold-50 pt-3 flex justify-between text-xs">
-            <span>19 Jun 2023 · Trans ID: 258147369258147</span>
-            <span class="font-semibold">₹1500.00</span>
-        </div>
+        @else
+            <div class="text-center py-16">
+                <div
+                    class="w-16 h-16 bg-gold-50 rounded-full flex items-center justify-center mx-auto mb-4 text-gold-400 text-2xl">
+                    🧾</div>
+                <h3 class="font-serif text-xl font-semibold mb-2">No Transactions Yet</h3>
+                <p class="text-ink-900/60">Your payment receipts will appear here.</p>
+            </div>
+        @endif
     </div>
-    @endforeach
-</div>
+
 @endsection
