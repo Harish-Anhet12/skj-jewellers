@@ -135,6 +135,11 @@ Route::middleware('auth')->group(function () {
         'dashboard.profile'
     );
 
+    Route::post(
+        '/dashboard/profile',
+        [DashboardController::class, 'updateProfile']
+    );
+
 });
 
 
