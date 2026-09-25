@@ -18,14 +18,22 @@ class User extends Authenticatable
      *
      * @var list<string>
      */
-  protected $fillable = [
-    'name',
-    'email',
-    'password',
-    'role',
-    'phone',
-    'address',
-];
+    protected $fillable = [
+        'name',
+        'email',
+        'password',
+        'role',
+        'phone',
+        'address',
+    ];
+
+    /**
+     * Get all plans enrolled by this user.
+     */
+    public function plans()
+    {
+        return $this->hasMany(UserPlan::class);
+    }
 
     /**
      * The attributes that should be hidden for serialization.

@@ -203,10 +203,25 @@ Route::middleware('admin')->group(function () {
 
     // Customers
 
-    Route::view(
-        '/admin/customers',
-        'admin.customers'
-    );
+    Route::get('/admin/customers', function () {
+
+        $customers = \App\Models\User::where(
+            'role',
+            '!=',
+            'admin'
+        )
+            ->withCount([
+                'plans' => function ($query) {
+                    $query->where('status', 'active');
+                }
+            ])
+            ->get();
+
+        return view(
+            'admin.customers',
+            compact('customers')
+        );
+    });
 
 
     // Plans
