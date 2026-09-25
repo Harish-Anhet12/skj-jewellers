@@ -1,9 +1,9 @@
 @extends('layouts.app')
-@section('title', 'Visit Us · '.config('brand.name'))
+@section('title', 'Store Locator · '.config('brand.name'))
 @section('content')
 <div class="max-w-7xl mx-auto px-4 md:px-8 py-12">
-    <x-section-heading eyebrow="Come Visit Us" title="Find Our Showroom" />
-    <p class="text-ink-900/60 text-center max-w-2xl mx-auto mb-10 -mt-4">Experience our jewellery collections in person and discover timeless designs at our showroom in Chickpet, Bengaluru.</p>
+    <x-section-heading eyebrow="Visit" title="Our Store" />
+    <p class="text-ink-900/60 text-center max-w-2xl mx-auto mb-10 -mt-4">Visit us at our showroom in Chickpet, Bengaluru.</p>
     <div class="grid md:grid-cols-3 gap-8">
         <div class="md:col-span-1 space-y-4">
             @foreach(config('brand.stores') as $store)
@@ -15,7 +15,7 @@
             @endforeach
         </div>
         <div class="md:col-span-2 rounded-3xl bg-gold-50 border border-gold-100 flex flex-col items-center justify-center min-h-[420px] px-6 text-center">
-            <p class="font-serif font-semibold text-ink-900 mb-1">Visit Us in Chickpet</p>
+            <p class="font-serif font-semibold text-ink-900 mb-1">Chickpet, Bengaluru</p>
             <p class="text-ink-900/40 text-sm">[ Map placeholder — Chickpet, Bengaluru ]</p>
         </div>
     </div>
