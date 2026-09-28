@@ -16,7 +16,7 @@ use App\Http\Controllers\CollectionController;
 // =====================================================
 
 Route::get('/', function () {
-    $newArrivals = \App\Models\Product::where('is_new_arrival', true)->latest()->take(4)->get();
+    $newArrivals = \App\Models\Product::where('is_featured', true)->latest()->take(4)->get();
     $collections = \App\Models\Collection::latest()->take(8)->get();
 
     return view('pages.home', compact('newArrivals', 'collections'));
