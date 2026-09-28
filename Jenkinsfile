@@ -5,6 +5,7 @@ pipeline {
 
         stage('Checkout') {
             steps {
+                deleteDir()
                 checkout scm
             }
         }
@@ -22,22 +23,19 @@ pipeline {
             }
         }
 
-        stage('Deploy to TEST') {
+        stage('Deploy to PROD') {
             steps {
                 sshagent(credentials: ['skj-app-deploy-key']) {
                     sh '''
-                        ssh -o StrictHostKeyChecking=no ubuntu@172.31.13.181 \
-                        "mkdir -p /var/www/skj-test"
-
                         rsync -az --no-perms --no-owner --no-group --omit-dir-times \
                           --exclude='.env' \
                           --exclude='database/database.sqlite' \
                           --exclude='storage/' \
                           --exclude='node_modules/' \
-                          ./ ubuntu@172.31.13.181:/var/www/skj-test/
+                          ./ ubuntu@172.31.13.181:/var/www/skj-jewellers/
 
                         ssh -o StrictHostKeyChecking=no ubuntu@172.31.13.181 \
-                        "cd /var/www/skj-test && \
+                        "cd /var/www/skj-jewellers && \
                          php artisan migrate --force && \
                          php artisan optimize:clear && \
                          php artisan config:cache && \
@@ -53,11 +51,11 @@ pipeline {
 
     post {
         success {
-            echo 'SKJ Jewellers TEST deployment successful!'
+            echo 'SKJ Jewellers PRODUCTION deployment successful!'
         }
 
         failure {
-            echo 'SKJ Jewellers TEST deployment failed.'
+            echo 'SKJ Jewellers PRODUCTION deployment failed.'
         }
     }
 }
