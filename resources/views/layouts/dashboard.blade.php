@@ -43,6 +43,7 @@
         .card { @apply bg-white rounded-2xl shadow-sm border border-gold-100 hover:shadow-luxe transition overflow-hidden; }
       }
     </style>
+    <style>[x-cloak] { display: none !important; }</style>
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 </head>
 <body class="bg-gold-50/30" x-data="{ sidebarOpen: false }">

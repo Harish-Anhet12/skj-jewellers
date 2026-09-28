@@ -3,18 +3,28 @@
 @section('content')
 <div class="max-w-7xl mx-auto px-4 md:px-8 py-12">
     <x-section-heading eyebrow="Save Smart" title="Gold Savings Scheme" />
-    <div class="grid md:grid-cols-2 gap-8 mb-16">
-        @foreach([
-            ['Swarna Dharaa','Easy · Convenient · Trust', '12 monthly instalments, redeemable towards jewellery purchase.'],
-            ['Chutti Lathika','Easy · Convenient · Trust', 'Flexible plan designed for small, consistent savers.'],
-        ] as [$name,$tag,$desc])
-        <div class="rounded-3xl bg-gradient-to-br from-ink-900 to-ink-800 text-white p-8">
-            <h3 class="font-serif text-2xl font-semibold mb-2">{{ $name }}</h3>
-            <p class="text-gold-400 text-sm mb-4">{{ $tag }}</p>
-            <p class="text-white/60 text-sm mb-6">{{ $desc }}</p>
-            <a href="{{ url('/dashboard/new-plan') }}" class="btn-gold">Join Now</a>
+    
+    <div class="flex flex-wrap justify-center gap-8 mb-16">
+        @forelse($plans as $plan)
+        <div class="w-full md:w-[calc(33.333%-1.5rem)] max-w-md card p-8 border-2 border-transparent hover:border-gold-300 transition-colors duration-300 relative overflow-hidden group">
+            <div class="absolute top-0 right-0 w-24 h-24 bg-gold-50 rounded-bl-full -z-10 group-hover:scale-110 transition-transform"></div>
+            <h3 class="font-serif text-2xl font-bold text-ink-900 mb-2">{{ $plan->name }}</h3>
+            <p class="text-ink-900/60 mb-6 line-clamp-2">{{ $plan->short_description }}</p>
+            <div class="space-y-3 mb-8">
+                <div class="flex justify-between items-center pb-3 border-b border-gold-100/50">
+                    <span class="text-ink-900/60">Duration</span>
+                    <span class="font-semibold text-ink-900">{{ $plan->duration_months }} Months</span>
+                </div>
+                <div class="flex justify-between items-center pb-3 border-b border-gold-100/50">
+                    <span class="text-ink-900/60">Min. Installment</span>
+                    <span class="font-semibold text-ink-900">₹{{ number_format($plan->minimum_amount) }}</span>
+                </div>
+            </div>
+            <a href="{{ url('/dashboard/new-plan') }}" class="btn-gold w-full text-center block">Start Saving Now</a>
         </div>
-        @endforeach
+        @empty
+        <p class="text-center w-full text-ink-900/50 py-12">No saving plans are currently available.</p>
+        @endforelse
     </div>
 
     <x-section-heading eyebrow="How it works" title="Process to Join" center />
