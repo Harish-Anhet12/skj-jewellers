@@ -15,16 +15,27 @@ class OfferController extends Controller
             ->latest()
             ->get();
 
-        // Get featured products to act as "Offer Products"
-        $offerProducts = \App\Models\Product::where('is_featured', true)
+        // Get offer products based on sale/MRP information
+        $query = \App\Models\Product::query();
+
+        $hasSale = \App\Models\Product::whereColumn('mrp', '>', 'price')->exists();
+
+        if ($hasSale) {
+            // Show products where MRP is greater than selling price
+            $query->whereColumn('mrp', '>', 'price');
+        } else {
+            // If there are no sale products, use featured products
+            $hasFeatured = \App\Models\Product::where('is_featured', true)->exists();
+
+            if ($hasFeatured) {
+                $query->where('is_featured', true);
+            }
+        }
+
+        $offerProducts = $query
             ->inRandomOrder()
             ->take(8)
             ->get();
-
-        // If no featured products, just get latest 8
-        if ($offerProducts->isEmpty()) {
-            $offerProducts = \App\Models\Product::latest()->take(8)->get();
-        }
 
         return view('pages.offers', compact('offers', 'offerProducts'));
     }
