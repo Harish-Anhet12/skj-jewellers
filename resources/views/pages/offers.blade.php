@@ -253,6 +253,7 @@
                 <x-product-card
                     :name="$product->name"
                     :price="$product->price"
+                    :mrp="$product->mrp"
                     :image="$product->image"
                     tag="Sale"
                 >
