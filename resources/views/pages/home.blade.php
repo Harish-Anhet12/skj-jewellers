@@ -5,7 +5,7 @@
 <section class="relative bg-gradient-to-br from-gold-50 via-white to-gold-100 overflow-hidden">
     <div class="max-w-7xl mx-auto px-4 md:px-8 py-16 md:py-24 grid md:grid-cols-2 gap-12 items-center">
         <div>
-            <p class="section-subtitle">Est. Trust · Generations of Craft</p>
+            <p class="section-subtitle">Est. Trust · Generations of Craft . Dev Test</p>
             <h1 class="text-4xl md:text-6xl font-serif font-bold text-ink-900 leading-tight mb-6">Jewellery that <span class="text-gold-500">tells your story</span></h1>
             <p class="text-ink-900/60 mb-8 max-w-md">Discover handcrafted 22k gold, diamond and platinum jewellery, and secure your future with our trusted Gold Savings Schemes.</p>
             <div class="flex flex-wrap gap-4">
