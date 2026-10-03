@@ -63,10 +63,7 @@ Route::get('/logout', [AuthController::class, 'logout']);
 
 Route::middleware('auth')->group(function () {
 
-    // -------------------------------------------------
     // Wishlist
-    // -------------------------------------------------
-
     Route::get(
         '/dashboard/wishlist',
         [App\Http\Controllers\WishlistController::class, 'index']
@@ -78,20 +75,14 @@ Route::middleware('auth')->group(function () {
     );
 
 
-    // -------------------------------------------------
     // Dashboard
-    // -------------------------------------------------
-
     Route::get(
         '/dashboard',
         [DashboardController::class, 'index']
     );
 
 
-    // -------------------------------------------------
     // My Plans
-    // -------------------------------------------------
-
     Route::post(
         '/dashboard/my-plans/{id}/close',
         [DashboardController::class, 'closePlan']
@@ -108,10 +99,7 @@ Route::middleware('auth')->group(function () {
     );
 
 
-    // -------------------------------------------------
     // New Plan
-    // -------------------------------------------------
-
     Route::get(
         '/dashboard/new-plan',
         [DashboardController::class, 'newPlan']
@@ -123,10 +111,7 @@ Route::middleware('auth')->group(function () {
     );
 
 
-    // -------------------------------------------------
     // Payments
-    // -------------------------------------------------
-
     Route::post(
         '/dashboard/my-plans/{id}/pay',
         [DashboardController::class, 'payEmi']
@@ -138,40 +123,28 @@ Route::middleware('auth')->group(function () {
     );
 
 
-    // -------------------------------------------------
     // Gold Weight
-    // -------------------------------------------------
-
     Route::view(
         '/dashboard/gold-weight',
         'dashboard.gold-weight'
     );
 
 
-    // -------------------------------------------------
     // Closed Plans
-    // -------------------------------------------------
-
     Route::get(
         '/dashboard/closed-plans',
         [DashboardController::class, 'closedPlans']
     );
 
 
-    // -------------------------------------------------
     // Notifications
-    // -------------------------------------------------
-
     Route::view(
         '/dashboard/notifications',
         'dashboard.notifications'
     );
 
 
-    // -------------------------------------------------
     // Profile
-    // -------------------------------------------------
-
     Route::view(
         '/dashboard/profile',
         'dashboard.profile'
@@ -183,10 +156,7 @@ Route::middleware('auth')->group(function () {
     );
 
 
-    // -------------------------------------------------
     // Customer Appointments
-    // -------------------------------------------------
-
     Route::get(
         '/dashboard/appointments',
         [DashboardController::class, 'appointments']
@@ -205,20 +175,20 @@ Route::middleware('auth')->group(function () {
 
 Route::middleware('admin')->group(function () {
 
-    // -------------------------------------------------
     // Admin Dashboard
-    // -------------------------------------------------
-
     Route::get(
         '/admin',
         [AdminController::class, 'index']
     );
 
+    // Global Admin Search
+    Route::get(
+        '/admin/search',
+        [\App\Http\Controllers\AdminSearchController::class, 'search']
+    )->name('admin.search');
 
-    // -------------------------------------------------
+
     // Customers
-    // -------------------------------------------------
-
     Route::get(
         '/admin/customers',
         [AdminController::class, 'customers']
@@ -230,10 +200,7 @@ Route::middleware('admin')->group(function () {
     );
 
 
-    // -------------------------------------------------
     // Plans
-    // -------------------------------------------------
-
     Route::get(
         '/admin/plans',
         [PlanController::class, 'adminIndex']
@@ -260,20 +227,14 @@ Route::middleware('admin')->group(function () {
     );
 
 
-    // -------------------------------------------------
     // Payments
-    // -------------------------------------------------
-
     Route::get(
         '/admin/payments',
         [AdminController::class, 'payments']
     );
 
 
-    // -------------------------------------------------
     // Products
-    // -------------------------------------------------
-
     Route::get(
         '/admin/products',
         [ProductController::class, 'adminIndex']
@@ -300,10 +261,7 @@ Route::middleware('admin')->group(function () {
     );
 
 
-    // -------------------------------------------------
     // Collections
-    // -------------------------------------------------
-
     Route::get(
         '/admin/collections',
         [CollectionController::class, 'adminIndex']
@@ -330,10 +288,7 @@ Route::middleware('admin')->group(function () {
     );
 
 
-    // -------------------------------------------------
     // Offers
-    // -------------------------------------------------
-
     Route::get(
         '/admin/offers',
         [OfferController::class, 'adminIndex']
@@ -360,10 +315,7 @@ Route::middleware('admin')->group(function () {
     );
 
 
-    // -------------------------------------------------
     // Appointments
-    // -------------------------------------------------
-
     Route::get(
         '/admin/appointments',
         [AppointmentController::class, 'adminIndex']
@@ -375,10 +327,7 @@ Route::middleware('admin')->group(function () {
     );
 
 
-    // -------------------------------------------------
     // Gold Rate
-    // -------------------------------------------------
-
     Route::get(
         '/admin/gold-rate',
         [GoldRateController::class, 'adminIndex']
@@ -395,20 +344,14 @@ Route::middleware('admin')->group(function () {
     );
 
 
-    // -------------------------------------------------
     // Reports
-    // -------------------------------------------------
-
     Route::get(
         '/admin/reports',
         [AdminController::class, 'reports']
     );
 
 
-    // -------------------------------------------------
     // Settings
-    // -------------------------------------------------
-
     Route::get(
         '/admin/settings',
         [AdminController::class, 'settings']
