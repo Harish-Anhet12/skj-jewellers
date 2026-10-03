@@ -83,7 +83,6 @@
                     </div>
                 </template>
 
-
                 {{-- No Results --}}
                 <template x-if="!loading && results.length === 0 && query.length >= 2">
                     <div class="p-4 text-center text-sm text-gray-500">
@@ -91,24 +90,19 @@
                     </div>
                 </template>
 
-
                 {{-- Results --}}
                 <template x-if="!loading && results.length > 0">
-
                     <ul class="max-h-80 overflow-y-auto">
 
                         <template
                             x-for="(result, index) in results"
                             :key="index"
                         >
-
                             <li>
-
                                 <a
                                     :href="result.url"
                                     class="block px-4 py-3 hover:bg-gold-50 border-b border-gray-50 transition"
                                 >
-
                                     <p
                                         class="text-xs text-gold-600 font-semibold uppercase tracking-wider mb-0.5"
                                         x-text="result.type"
@@ -123,19 +117,14 @@
                                         class="text-xs text-gray-500 truncate"
                                         x-text="result.subtitle"
                                     ></p>
-
                                 </a>
-
                             </li>
-
                         </template>
 
                     </ul>
-
                 </template>
 
             </div>
-
         </div>
 
 
@@ -145,23 +134,42 @@
 
         <div
             class="relative ml-2"
-            x-data="{ openNotify: false }"
+            x-data="{
+                openNotify: false,
+                unreadCount: {{ auth()->user() ? auth()->user()->unreadNotifications->count() : 0 }},
+
+                markRead() {
+                    if (this.unreadCount === 0) return;
+
+                    fetch('{{ route('admin.notifications.markRead') }}', {
+                        method: 'POST',
+                        headers: {
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                            'Content-Type': 'application/json',
+                            'Accept': 'application/json'
+                        }
+                    })
+                    .then(() => {
+                        this.unreadCount = 0;
+
+                        document.querySelectorAll('.notification-item').forEach(el => {
+                            el.classList.remove('bg-gold-50/10');
+                            el.classList.add('opacity-60');
+                        });
+                    });
+                }
+            }"
         >
 
             <button
                 @click="openNotify = !openNotify"
-                @click.outside="openNotify = false"
                 class="w-10 h-10 rounded-full bg-gray-50 flex items-center justify-center text-gray-500 hover:text-gold-500 hover:bg-gold-50 transition relative focus:outline-none"
             >
-
                 <i class="bi bi-bell text-lg"></i>
 
-                @if(auth()->user() && auth()->user()->unreadNotifications->count() > 0)
-
+                <template x-if="unreadCount > 0">
                     <span class="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full border border-white"></span>
-
-                @endif
-
+                </template>
             </button>
 
 
@@ -169,6 +177,7 @@
             <div
                 x-show="openNotify"
                 x-cloak
+                @click.outside="openNotify = false"
                 x-transition:enter="transition ease-out duration-200"
                 x-transition:enter-start="opacity-0 translate-y-1"
                 x-transition:enter-end="opacity-100 translate-y-0"
@@ -185,13 +194,11 @@
                         Notifications
                     </p>
 
-                    @if(auth()->user() && auth()->user()->unreadNotifications->count() > 0)
-
+                    <template x-if="unreadCount > 0">
                         <span class="text-[10px] text-gold-600 bg-gold-50 px-2 py-0.5 rounded-full font-medium">
-                            {{ auth()->user()->unreadNotifications->count() }} new
+                            <span x-text="unreadCount"></span> new
                         </span>
-
-                    @endif
+                    </template>
 
                 </div>
 
@@ -203,7 +210,9 @@
 
                         @forelse(auth()->user()->notifications->take(5) as $notification)
 
-                            <div class="px-4 py-3 border-b border-gray-50 hover:bg-gray-50 transition {{ $notification->read_at ? 'opacity-60' : 'bg-gold-50/10' }}">
+                            <div
+                                class="notification-item px-4 py-3 border-b border-gray-50 hover:bg-gray-50 transition {{ $notification->read_at ? 'opacity-60' : 'bg-gold-50/10' }}"
+                            >
 
                                 <p class="text-xs font-semibold text-ink-900">
                                     {{ $notification->data['title'] ?? 'System Alert' }}
@@ -222,11 +231,8 @@
                         @empty
 
                             <div class="px-4 py-8 text-center text-gray-500 text-sm">
-
                                 <i class="bi bi-bell-slash text-2xl text-gray-300 mb-2 block"></i>
-
                                 No new notifications
-
                             </div>
 
                         @endforelse
@@ -237,20 +243,16 @@
 
 
                 {{-- Mark All As Read --}}
-                @if(auth()->user() && auth()->user()->unreadNotifications->count() > 0)
-
+                <template x-if="unreadCount > 0">
                     <div class="px-4 py-2 border-t border-gray-50 bg-gray-50/50 text-center">
-
-                        <a
-                            href="#"
-                            class="text-xs text-gold-600 font-medium hover:text-gold-700"
+                        <button
+                            @click="markRead()"
+                            class="text-xs text-gold-600 font-medium hover:text-gold-700 focus:outline-none w-full py-1"
                         >
                             Mark all as read
-                        </a>
-
+                        </button>
                     </div>
-
-                @endif
+                </template>
 
             </div>
 

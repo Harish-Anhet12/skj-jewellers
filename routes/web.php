@@ -181,11 +181,19 @@ Route::middleware('admin')->group(function () {
         [AdminController::class, 'index']
     );
 
+
     // Global Admin Search
     Route::get(
         '/admin/search',
         [\App\Http\Controllers\AdminSearchController::class, 'search']
     )->name('admin.search');
+
+
+    // Mark All Notifications As Read
+    Route::post(
+        '/admin/notifications/mark-read',
+        [AdminController::class, 'markNotificationsRead']
+    )->name('admin.notifications.markRead');
 
 
     // Customers
