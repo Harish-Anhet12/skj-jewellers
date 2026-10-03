@@ -17,11 +17,14 @@ use App\Http\Controllers\AdminController;
 // PUBLIC PAGES
 // =====================================================
 
-// Public pages
 Route::get('/', [HomeController::class, 'index']);
+
 Route::get('/shop', [ProductController::class, 'shopIndex']);
+
 Route::get('/product/{id}', [ProductController::class, 'show']);
+
 Route::get('/collections', [ProductController::class, 'collectionsIndex']);
+
 Route::get('/gold-saving-scheme', [PlanController::class, 'userIndex']);
 
 Route::get('/offers', [OfferController::class, 'userIndex']);
@@ -29,6 +32,7 @@ Route::get('/offers', [OfferController::class, 'userIndex']);
 Route::get('/gold-rate', [GoldRateController::class, 'userIndex']);
 
 Route::get('/book-appointment', [AppointmentController::class, 'create']);
+
 Route::post('/book-appointment', [AppointmentController::class, 'store']);
 
 Route::view('/store-locator', 'pages.store-locator');
@@ -59,7 +63,9 @@ Route::get('/logout', [AuthController::class, 'logout']);
 
 Route::middleware('auth')->group(function () {
 
+    // -------------------------------------------------
     // Wishlist
+    // -------------------------------------------------
 
     Route::get(
         '/dashboard/wishlist',
@@ -72,9 +78,19 @@ Route::middleware('auth')->group(function () {
     );
 
 
+    // -------------------------------------------------
     // Dashboard
+    // -------------------------------------------------
 
-    Route::get('/dashboard', [DashboardController::class, 'index']);
+    Route::get(
+        '/dashboard',
+        [DashboardController::class, 'index']
+    );
+
+
+    // -------------------------------------------------
+    // My Plans
+    // -------------------------------------------------
 
     Route::post(
         '/dashboard/my-plans/{id}/close',
@@ -91,6 +107,11 @@ Route::middleware('auth')->group(function () {
         [DashboardController::class, 'planDetails']
     );
 
+
+    // -------------------------------------------------
+    // New Plan
+    // -------------------------------------------------
+
     Route::get(
         '/dashboard/new-plan',
         [DashboardController::class, 'newPlan']
@@ -100,6 +121,11 @@ Route::middleware('auth')->group(function () {
         '/dashboard/new-plan',
         [DashboardController::class, 'enroll']
     );
+
+
+    // -------------------------------------------------
+    // Payments
+    // -------------------------------------------------
 
     Route::post(
         '/dashboard/my-plans/{id}/pay',
@@ -111,10 +137,20 @@ Route::middleware('auth')->group(function () {
         [DashboardController::class, 'paymentHistory']
     );
 
+
+    // -------------------------------------------------
+    // Gold Weight
+    // -------------------------------------------------
+
     Route::view(
         '/dashboard/gold-weight',
         'dashboard.gold-weight'
     );
+
+
+    // -------------------------------------------------
+    // Closed Plans
+    // -------------------------------------------------
 
     Route::get(
         '/dashboard/closed-plans',
@@ -122,12 +158,19 @@ Route::middleware('auth')->group(function () {
     );
 
 
-    // Additional dashboard pages
+    // -------------------------------------------------
+    // Notifications
+    // -------------------------------------------------
 
     Route::view(
         '/dashboard/notifications',
         'dashboard.notifications'
     );
+
+
+    // -------------------------------------------------
+    // Profile
+    // -------------------------------------------------
 
     Route::view(
         '/dashboard/profile',
@@ -139,6 +182,20 @@ Route::middleware('auth')->group(function () {
         [DashboardController::class, 'updateProfile']
     );
 
+
+    // -------------------------------------------------
+    // Customer Appointments
+    // -------------------------------------------------
+
+    Route::get(
+        '/dashboard/appointments',
+        [DashboardController::class, 'appointments']
+    );
+
+    Route::post(
+        '/dashboard/appointments/{id}/cancel',
+        [DashboardController::class, 'cancelAppointment']
+    );
 });
 
 
@@ -148,11 +205,20 @@ Route::middleware('auth')->group(function () {
 
 Route::middleware('admin')->group(function () {
 
-    // Admin dashboard
-    Route::get('/admin', [AdminController::class, 'index']);
+    // -------------------------------------------------
+    // Admin Dashboard
+    // -------------------------------------------------
+
+    Route::get(
+        '/admin',
+        [AdminController::class, 'index']
+    );
 
 
+    // -------------------------------------------------
     // Customers
+    // -------------------------------------------------
+
     Route::get(
         '/admin/customers',
         [AdminController::class, 'customers']
@@ -164,7 +230,10 @@ Route::middleware('admin')->group(function () {
     );
 
 
+    // -------------------------------------------------
     // Plans
+    // -------------------------------------------------
+
     Route::get(
         '/admin/plans',
         [PlanController::class, 'adminIndex']
@@ -191,14 +260,20 @@ Route::middleware('admin')->group(function () {
     );
 
 
+    // -------------------------------------------------
     // Payments
+    // -------------------------------------------------
+
     Route::get(
         '/admin/payments',
         [AdminController::class, 'payments']
     );
 
 
+    // -------------------------------------------------
     // Products
+    // -------------------------------------------------
+
     Route::get(
         '/admin/products',
         [ProductController::class, 'adminIndex']
@@ -225,7 +300,10 @@ Route::middleware('admin')->group(function () {
     );
 
 
+    // -------------------------------------------------
     // Collections
+    // -------------------------------------------------
+
     Route::get(
         '/admin/collections',
         [CollectionController::class, 'adminIndex']
@@ -252,7 +330,10 @@ Route::middleware('admin')->group(function () {
     );
 
 
+    // -------------------------------------------------
     // Offers
+    // -------------------------------------------------
+
     Route::get(
         '/admin/offers',
         [OfferController::class, 'adminIndex']
@@ -279,7 +360,10 @@ Route::middleware('admin')->group(function () {
     );
 
 
+    // -------------------------------------------------
     // Appointments
+    // -------------------------------------------------
+
     Route::get(
         '/admin/appointments',
         [AppointmentController::class, 'adminIndex']
@@ -291,7 +375,10 @@ Route::middleware('admin')->group(function () {
     );
 
 
+    // -------------------------------------------------
     // Gold Rate
+    // -------------------------------------------------
+
     Route::get(
         '/admin/gold-rate',
         [GoldRateController::class, 'adminIndex']
@@ -308,14 +395,20 @@ Route::middleware('admin')->group(function () {
     );
 
 
+    // -------------------------------------------------
     // Reports
+    // -------------------------------------------------
+
     Route::get(
         '/admin/reports',
         [AdminController::class, 'reports']
     );
 
 
+    // -------------------------------------------------
     // Settings
+    // -------------------------------------------------
+
     Route::get(
         '/admin/settings',
         [AdminController::class, 'settings']
@@ -325,5 +418,4 @@ Route::middleware('admin')->group(function () {
         '/admin/settings',
         [AdminController::class, 'updateSettings']
     );
-
 });
