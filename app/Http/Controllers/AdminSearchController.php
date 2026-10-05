@@ -39,7 +39,7 @@ class AdminSearchController extends Controller
 
         // Search Products
         $products = Product::where('name', 'like', "%{$query}%")
-                        ->orWhere('sku', 'like', "%{$query}%")
+                        ->orWhere('category', 'like', "%{$query}%")
                         ->take(3)
                         ->get()
                         ->map(function($product) {
