@@ -1,4 +1,3 @@
-
 @php
 $links = [
     ['Overview', '/admin', 'overview'],
@@ -6,6 +5,7 @@ $links = [
     ['Plans & Schemes', '/admin/plans', 'plans'],
     ['Payments', '/admin/payments', 'payments'],
     ['Appointments', '/admin/appointments', 'appointments'],
+    ['Messages', '/admin/contact-messages', 'messages'],
     ['Products', '/admin/products', 'products'],
     ['Collections', '/admin/collections', 'collections'],
     ['Offers', '/admin/offers', 'offers'],
