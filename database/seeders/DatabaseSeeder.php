@@ -18,10 +18,10 @@ class DatabaseSeeder extends Seeder
         $adminRole = \App\Models\Role::firstOrCreate(
             ['name' => 'Admin'],
             [
-                'can_create' => true,
-                'can_read' => true,
-                'can_update' => true,
-                'can_delete' => true,
+                'can_dashboard' => true,
+                'can_user' => true,
+                'can_role' => true,
+                'can_department' => true,
             ]
         );
 

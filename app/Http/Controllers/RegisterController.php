@@ -21,6 +21,10 @@ class RegisterController extends Controller
             'password' => 'required|min:8|confirmed',
         ]);
 
+        $role = \App\Models\Role::where('name', 'Admin')->first();
+        if ($role) {
+            $data['role_id'] = $role->id;
+        }
         $user = User::create($data);
 
         Auth::login($user);

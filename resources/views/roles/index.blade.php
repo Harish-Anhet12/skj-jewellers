@@ -22,7 +22,9 @@
                     <th class="px-6 py-4 text-center text-xs font-semibold text-gray-500 uppercase tracking-wider">Department</th>
                     <th class="px-6 py-4 text-center text-xs font-semibold text-gray-500 uppercase tracking-wider">User</th>
                     <th class="px-6 py-4 text-center text-xs font-semibold text-gray-500 uppercase tracking-wider">Role</th>
+                    <th class="px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Leave Management</th>
                     <th class="px-6 py-4 text-right text-xs font-semibold text-gray-500 uppercase tracking-wider">Actions</th>
+                    
                 </tr>
             </thead>
             <tbody class="divide-y divide-gray-100">
@@ -40,7 +42,7 @@
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="6" class="px-6 py-8 text-center text-gray-500 text-sm">No records found.</td>
+                        <td colspan="7" class="px-6 py-8 text-center text-gray-500 text-sm">No records found.</td>
                     </tr>
                 @endforelse
             </tbody>
