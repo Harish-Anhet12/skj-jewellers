@@ -13,6 +13,7 @@ class Role extends Model
         'can_department',
         'can_user',
         'can_role',
+        'can_leave',
     ];
 
     public function users()

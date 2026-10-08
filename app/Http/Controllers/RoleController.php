@@ -28,6 +28,7 @@ class RoleController extends Controller
         $data['can_department'] = $request->has('can_department');
         $data['can_user'] = $request->has('can_user');
         $data['can_role'] = $request->has('can_role');
+        $data['can_leave'] = $request->has('can_leave');
 
         Role::create($data);
 
@@ -49,6 +50,7 @@ class RoleController extends Controller
         $data['can_department'] = $request->has('can_department');
         $data['can_user'] = $request->has('can_user');
         $data['can_role'] = $request->has('can_role');
+        $data['can_leave'] = $request->has('can_leave');
 
         $role->update($data);
 

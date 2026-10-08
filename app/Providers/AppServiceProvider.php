@@ -37,5 +37,9 @@ class AppServiceProvider extends ServiceProvider
         Gate::define('access-role', function (User $user) {
             return $user->role && $user->role->can_role;
         });
+
+        Gate::define('access-leave', function (User $user) {
+            return $user->role && $user->role->can_leave;
+        });
     }
 }
